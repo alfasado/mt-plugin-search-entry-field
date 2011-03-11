@@ -1,0 +1,24 @@
+id  : SearchEntryField
+key : searchentryfield
+name: Search Entry Field
+version: 0.1
+author_name: Alfasado Inc.
+author_link: http://alfasado.net/
+description: <__trans phrase="Search entry's CustomField value.">
+l10n_class: SearchEntryField::L10N
+tags:
+    block:
+        SearchEntryField: $searchentryfield::SearchEntryField::Tags::_hdlr_searchentryfield
+
+# <MTSearchEntryField field="cf" query="Foo">
+# Some template is here(Entries which field'cf' contains 'Foo').
+# </MTSearchEntryField>
+
+# <MTSearchEntryField field="cf" multi="1" query="1 2" and_or="and" separator=" ">
+# Some template is here(Entries which field'cf' contains '1' and '2').
+# </MTSearchEntryField>
+
+# <MTSearchEntryField field="cf" multi="1" query="1,2" and_or="or" pre_suffix=",">
+# Some template is here(Entries which field'cf' contains ',1,' or ',2,').
+# </MTSearchEntryField>
+
