@@ -76,7 +76,7 @@ sub _hdlr_searchentryfield {
     my %terms;
     my %params;
     my @blog_ids = include_exclude_blogs( $ctx, $args );
-    if ( scalar @blog_ids ) {
+    if ( defined @blog_ids[0] ) {
         $terms{ blog_id } = \@blog_ids;
     }
     $terms{ id } = \@ids;
