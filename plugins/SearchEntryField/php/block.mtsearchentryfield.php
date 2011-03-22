@@ -68,7 +68,7 @@ function smarty_block_mtsearchentryfield ( $args, $content, &$ctx, &$repeat ) {
             $id = $row[ $id_col ];
             array_push( $ids, $id );
         }
-        $ids = join( ',',$ids );
+        $ids = join( ',', $ids );
         $limit = $args[ 'lastn' ];
         if (! isset( $limit ) ) {
             $limit = $args[ 'limit' ];
