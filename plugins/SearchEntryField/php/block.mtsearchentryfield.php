@@ -122,8 +122,11 @@ function smarty_block_mtsearchentryfield ( $args, $content, &$ctx, &$repeat ) {
             $ctx->restore( $localvars );
             $repeat = FALSE;
         }
+        if ( $counter ) {
+            return $content;
+        }
     }
-    return $content;
+    // return $content;
 }
 function __searchentryfield_blogs ( $ctx, $args ) {
     if ( isset( $args[ 'blog_ids' ] ) ||
