@@ -62,11 +62,15 @@ function smarty_block_mtsearchentryfield ( $args, $content, &$ctx, &$repeat ) {
         $match_cnt--;
         $id_col = "{$tb_prefix}meta_{$tb_prefix}id";
         $ids = array();
+        $exclude_ids = $args[ 'exclude_ids' ];
+        $exclude_ids = preg_split( "/,/", $exclude_ids );
         for ( $i = 0; $i <= $match_cnt; $i++ ) {
             $match_fld->Move( $i );
             $row = $match_fld->FetchRow();
             $id = $row[ $id_col ];
-            array_push( $ids, $id );
+            if ( ! ( preg_grep( "/^$id$/", $exclude_ids ) ) ) {
+                        array_push( $ids, $id );
+            }
         }
         $ids = join( ',', $ids );
         $limit = $args[ 'lastn' ];
@@ -80,10 +84,10 @@ function smarty_block_mtsearchentryfield ( $args, $content, &$ctx, &$repeat ) {
         if (! $sort_by ) $sort_by = 'id';
         $sort_by = $tb_prefix . $sort_by;
         $sort_order = $args[ 'sort_order' ];
-        if ( (! $sort_order ) || ( $sort_order == 'descend' ) ) {
-            $sort_order = 'DESC';
-        } else {
+        if ( (! $sort_order ) || ( $sort_order == 'ascend' ) ) {
             $sort_order = 'ASC';
+        } else {
+            $sort_order = 'DESC';
         }
         $include_exclude_blogs = __searchentryfield_blogs( $ctx, $args );
         $where = " {$tb_prefix}blog_id{$include_exclude_blogs} AND {$tb_prefix}status=2 AND ";
@@ -105,6 +109,8 @@ function smarty_block_mtsearchentryfield ( $args, $content, &$ctx, &$repeat ) {
         if ( $counter < count( $entries ) ) {
             $entry = $entries[ $counter ];
             if (! empty( $entry ) ) {
+                $ctx->stash( 'blog', $entry->blog() );
+                $ctx->stash( 'blog_id', $entry->blog_id );
                 $ctx->stash( 'entry', $entry );
                 $ctx->stash( '_entries_counter', $counter + 1 );
                 $count = $counter + 1;
@@ -126,7 +132,6 @@ function smarty_block_mtsearchentryfield ( $args, $content, &$ctx, &$repeat ) {
             return $content;
         }
     }
-    // return $content;
 }
 function __searchentryfield_blogs ( $ctx, $args ) {
     if ( isset( $args[ 'blog_ids' ] ) ||
